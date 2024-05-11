@@ -5,6 +5,12 @@
         public HelpForm()
         {
             InitializeComponent();
+
+        }
+
+        private void labelThanks_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

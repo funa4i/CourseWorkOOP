@@ -98,7 +98,7 @@ namespace VisBinaryTreeInputSearch.Forms
 
         private void SetStorage(Igniter igniter)
         {
-            
+
             if (_storage == null || _storage.GetSize() == 0)
             {
                 _manager = new Manager(new BinaryTree());
@@ -210,8 +210,14 @@ namespace VisBinaryTreeInputSearch.Forms
                 {
                     MessageBox.Show("Ошибка загрузки");
                 }
-      
+
             }
+        }
+
+        private void ToolStripMenuItemHelp_Click(object sender, EventArgs e)
+        {
+                HelpForm form = new HelpForm();
+                form.Show();  
         }
     }
 }

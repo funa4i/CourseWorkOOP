@@ -252,6 +252,7 @@
             ToolStripMenuItemHelp.ShortcutKeys = Keys.Control | Keys.I;
             ToolStripMenuItemHelp.Size = new Size(255, 26);
             ToolStripMenuItemHelp.Text = "Открыть справку";
+            ToolStripMenuItemHelp.Click += ToolStripMenuItemHelp_Click;
             // 
             // openFileDialog
             // 
@@ -268,7 +269,7 @@
             Controls.Add(menuStrip1);
             MainMenuStrip = menuStrip1;
             Name = "MainForm";
-            Text = "MainForm";
+            Text = "Бинарное дерево";
             SizeChanged += MainForm_SizeChanged;
             MouseWheel += MainForm_MouseWheel;
             toolsPanel.ResumeLayout(false);

@@ -108,7 +108,7 @@
             Controls.Add(groupBoxValue);
             Controls.Add(groupBoxOperationType);
             Name = "IgniterForm";
-            Text = "IgniterForm";
+            Text = "Начальные параметры";
             groupBoxOperationType.ResumeLayout(false);
             groupBoxOperationType.PerformLayout();
             groupBoxValue.ResumeLayout(false);
