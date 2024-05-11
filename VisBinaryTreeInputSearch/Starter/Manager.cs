@@ -39,7 +39,6 @@ namespace VisBinaryTreeInputSearch.Starter
                         buf = Tree.DoInsert(igniter.data);
                         toRet.addCondition(Tree.CreateNewCondition(igniter.act, igniter.data));
                     } while (!buf ?? false);
-                    
                     break;
             }
             result = buf ?? false;
