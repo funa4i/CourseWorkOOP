@@ -7,7 +7,6 @@ namespace VisBinaryTreeInputSearch.BinaryTreeP
         public EnumAct EnumAct { get;  set; }
         public BinaryTree Tree { get;  set; }
         public int UseableData { get;  set; }
-        public bool OperationDone { get; set; }
         
         public ConditionOfTree(EnumAct enumAct, int useableData, BinaryTree tree) 
         {

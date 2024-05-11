@@ -116,11 +116,6 @@ namespace VisBinaryTreeInputSearch.StorageConditons
                 }
                 return true;
             }
-
-
         }
-
-
-
     }
 }

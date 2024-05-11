@@ -6,15 +6,15 @@ namespace VisBinaryTreeInputSearch.BinaryTreeP
 {
     public class BinaryTree
     {
+        /// <summary>
+        /// Начальный узел дерева
+        /// </summary>
         public MyTreeNode? head { get; set; }
      
+        /// <summary>
+        /// Размер дерева
+        /// </summary>
         public int size { get; set; }
-
-        private BinaryTree(int data)
-        {
-            head = new MyTreeNode(data);
-            size = 1;
-        }
         
         private BinaryTree(MyTreeNode node, int size)
         {
@@ -31,7 +31,7 @@ namespace VisBinaryTreeInputSearch.BinaryTreeP
         /// <summary>
         /// Выполнение шага вставки
         /// </summary>
-        /// <param name="data"></param>
+        /// <param name="data">Вставляемый элемент</param>
         /// <returns>True - если вставка реализовалась<br/>
         /// False - если нет</returns>
         public bool DoInsert(int data)
@@ -78,7 +78,7 @@ namespace VisBinaryTreeInputSearch.BinaryTreeP
         /// <summary>
         /// Выполнение шага поиска
         /// </summary>
-        /// <param name="data"></param>
+        /// <param name="data">Элемент для поиска</param>
         /// <returns>True - объект найдет<br/>
         /// False - если нет<br/>
         /// null - если не дошли до конца дерева</returns>
@@ -130,6 +130,13 @@ namespace VisBinaryTreeInputSearch.BinaryTreeP
             return DoFindCurrentNode(this.head);
         }
 
+        /// <summary>
+        /// Выполняет поиск текущего узла дерева
+        /// </summary>
+        /// <param name="curObj">Узел, с которого начинается поиск</param>
+        /// <returns>MyTreeNode - Если узел найден<br/>
+        /// NULL - Если узел отсутствует
+        /// </returns>
         private MyTreeNode? DoFindCurrentNode(MyTreeNode? curObj)
         {
             if (curObj == null)
@@ -168,7 +175,10 @@ namespace VisBinaryTreeInputSearch.BinaryTreeP
             return new ConditionOfTree(enumAct, data, DeepClone(this));
         }
 
-
+        /// <summary>
+        /// Устанавливает по выбранному состоянию дерево
+        /// </summary>
+        /// <param name="condition">Состояние</param>
         public void SetCondition(ConditionOfTree condition)
         {
             head = MyTreeNode.Clone(condition.Tree.head);

@@ -16,7 +16,7 @@ namespace VisBinaryTreeInputSearch.Drawing
         private double _multiplierCoefficient = 1;
 
         private readonly int minimalSize = 100;
-
+        private BinaryTree tree = new BinaryTree();
         private int realSize => (int)Math.Round(minimalSize * _multiplierCoefficient);
 
         public int  width, height;
@@ -79,7 +79,7 @@ namespace VisBinaryTreeInputSearch.Drawing
 
         }
 
-        public void setMulCoef(int val)
+        private void setMulCoef(int val)
         {
             if (val == -100)
             {
@@ -95,7 +95,7 @@ namespace VisBinaryTreeInputSearch.Drawing
                 return;
             }
 
-            BinaryTree tree = condition.Tree;
+            tree.SetCondition(condition);
 
             if(tree.head == null)
             {

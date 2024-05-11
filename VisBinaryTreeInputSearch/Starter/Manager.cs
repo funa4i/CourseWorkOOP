@@ -14,7 +14,11 @@ namespace VisBinaryTreeInputSearch.Starter
         {
             this.Tree = tree;
         }
-
+        /// <summary>
+        /// Принимает начальные параметры для создания Storage
+        /// </summary>
+        /// <param name="igniter"></param>
+        /// <returns></returns>
         public Storage addIgniter(Igniter igniter)
         {
             EnumAct act = igniter.act;
