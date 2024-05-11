@@ -23,7 +23,7 @@ namespace VisBinaryTreeInputSearch.Starter
         {
             Storage toRet = new Storage();
             toRet.addCondition(Tree.CreateNewCondition(igniter.act, igniter.data));
-            bool? buf;
+            bool? buf = null;
             switch (igniter.act)
             {
                 case EnumAct.Find:  
@@ -32,19 +32,18 @@ namespace VisBinaryTreeInputSearch.Starter
                         buf = Tree.DoFind(igniter.data);
                         toRet.addCondition(Tree.CreateNewCondition(igniter.act, igniter.data));
                     } while (buf == null);
-                    result = buf ?? false;
-                    toRet.SetNullPosition();
-                    return toRet;
+                    break;
                 case EnumAct.Insert:
                     do
                     {
                         buf = Tree.DoInsert(igniter.data);
                         toRet.addCondition(Tree.CreateNewCondition(igniter.act, igniter.data));
                     } while (!buf ?? false);
-                    result = buf ?? false;
-                    toRet.SetNullPosition();
-                    return toRet;
+                    
+                    break;
             }
+            result = buf ?? false;
+            toRet.SetNullPosition();
             return toRet;
         }
     }
