@@ -1,18 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.Serialization;
-using System.Runtime.Serialization.Formatters.Binary;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Serialization;
-using System.Text.Json;
+﻿using Newtonsoft.Json;
+using System.Text.Json.Serialization;
+using VisBinaryTreeInputSearch.Enums;
 
-namespace VisBinaryTreeInputSearch.BinaryTreeClasses
+namespace VisBinaryTreeInputSearch.BinaryTreeP
 {
     public class BinaryTree
     {
         public MyTreeNode? head { get; set; }
+     
         public int size { get; set; }
 
         private BinaryTree(int data)
@@ -20,6 +15,7 @@ namespace VisBinaryTreeInputSearch.BinaryTreeClasses
             head = new MyTreeNode(data);
             size = 1;
         }
+        
         private BinaryTree(MyTreeNode node, int size)
         {
             head = MyTreeNode.Clone(node);
@@ -50,29 +46,26 @@ namespace VisBinaryTreeInputSearch.BinaryTreeClasses
                     return true;
                 }
                 MyTreeNode.SwapChoose(null, head);
-                curentNode = head;
                 return false;
             }
-            if (curentNode?.data < data)
+            if (curentNode?.data > data)
             {
                 if (curentNode.left == null)
                 {
                     curentNode.left = new MyTreeNode(data);
                     MyTreeNode.SwapChoose(curentNode, null);
-                    curentNode = null;
                     size++;
                     return true;
                 }
                 MyTreeNode.SwapChoose(curentNode, curentNode.left);
                 curentNode = curentNode.left;
             }
-            else if (curentNode?.data >= data)
+            else if (curentNode?.data <= data)
             {
                 if (curentNode.right == null)
                 {
                     curentNode.right = new MyTreeNode(data);
                     MyTreeNode.SwapChoose(curentNode,null);
-                    curentNode = null;
                     size++;
                     return true;
                 }
@@ -106,20 +99,20 @@ namespace VisBinaryTreeInputSearch.BinaryTreeClasses
                 MyTreeNode.SwapChoose(curentNode, null);
                 return true;
             }
-            if (curentNode.data < data)
+            if (curentNode.data > data)
             {
                 MyTreeNode.SwapChoose(curentNode, curentNode.left);
-                if (curentNode == null)
+                if (curentNode.left == null)
                 {
                     return false;
                 }
                 return null;
             }
 
-            if (curentNode.data > data)
+            if (curentNode.data < data)
             {
                 MyTreeNode.SwapChoose(curentNode, curentNode.right);
-                if (curentNode == null)
+                if (curentNode.right == null)
                 {
                     return false;
                 }
@@ -170,7 +163,7 @@ namespace VisBinaryTreeInputSearch.BinaryTreeClasses
         /// <param name="enumAct"></param>
         /// <param name="data"></param>
         /// <returns></returns>
-        public ConditionOfTree? CreateNewCondition(EnumAct enumAct, int data)
+        public ConditionOfTree CreateNewCondition(EnumAct enumAct, int data)
         {
             return new ConditionOfTree(enumAct, data, DeepClone(this));
         }

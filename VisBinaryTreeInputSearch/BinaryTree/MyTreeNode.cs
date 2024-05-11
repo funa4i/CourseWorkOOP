@@ -1,16 +1,21 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace VisBinaryTreeInputSearch.BinaryTreeClasses
+namespace VisBinaryTreeInputSearch.BinaryTreeP
 {
     public class MyTreeNode
     {
+        
         public int data { get; set; }
+        
         public MyTreeNode? left { get; set; }
+        
         public MyTreeNode? right { get; set; }
+    
         public bool _isChoosen { get; set; } = false;
         public MyTreeNode(int data)
         {
@@ -18,6 +23,31 @@ namespace VisBinaryTreeInputSearch.BinaryTreeClasses
             left = null;
             right = null;
         }
+
+        public static int GetRightChilds(MyTreeNode? node) 
+        {
+            if (node == null)
+            {
+                return 0;
+            }
+            return GetAllChilds(node.right);
+        }
+
+        public static  int GetLeftChilds(MyTreeNode? node)
+        {
+            if (node == null) { return 0;}
+            return GetAllChilds(node.left);
+        }
+
+        private static int GetAllChilds(MyTreeNode? node)
+        {
+            if (node == null)
+            {
+                return 0;
+            }
+            return 1 + GetAllChilds(node.left) + GetAllChilds(node.right); 
+        }
+        
 
         /// <summary>
         /// Иземеняет поле _isChoosen первого объекта first на false, объекта sec на true

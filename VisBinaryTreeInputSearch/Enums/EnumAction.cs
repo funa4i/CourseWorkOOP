@@ -4,12 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace VisBinaryTreeInputSearch.BinaryTreeClasses
+namespace VisBinaryTreeInputSearch.Enums
 {
     public enum EnumAct
     {
         Insert = 0,
-        Find = 1,
-        None = -1
+        Find = 1
     }
 }
