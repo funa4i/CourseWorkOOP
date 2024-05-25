@@ -2,6 +2,7 @@
 using System.IO;
 using System.Text.Json;
 using VisBinaryTreeInputSearch.BinaryTreeP;
+using System.Diagnostics;
 
 
 namespace VisBinaryTreeInputSearch.StorageConditons
@@ -22,7 +23,7 @@ namespace VisBinaryTreeInputSearch.StorageConditons
 
         public int GetSize() { return _storage.Count; }
 
-        public ConditionOfTree GetNextCondtiont()
+        public ConditionOfTree GetNextCondtion()
         {
             if (_choosenConditionIndex < _storage.Count - 1)
             {
@@ -62,18 +63,30 @@ namespace VisBinaryTreeInputSearch.StorageConditons
 
         public void addCondition(ConditionOfTree condition) 
         {
+            if (_choosenConditionIndex == -1)
+            {
+                _choosenConditionIndex++;
+            }
             _storage.Add(condition);
-            _choosenConditionIndex += 1;
         }
 
+        public ConditionOfTree GetCurrent()
+        {
+            if (_storage.Count == 0)
+            {
+                return null;
+            }
+            return _storage[_choosenConditionIndex];
+        }
 
 
         public void SaveConditions(string filePath)
         {
-            if (!File.Exists(filePath))
+            if (File.Exists(filePath))
             {
-                File.Create(filePath);
+                File.Delete(filePath);
             }
+            
             
             StringBuilder sb = new StringBuilder();
             sb.AppendLine(saveFileKey);
@@ -81,7 +94,7 @@ namespace VisBinaryTreeInputSearch.StorageConditons
             {
                 sb.AppendLine(JsonSerializer.Serialize(_storage[i]));
             }
-            File.WriteAllText(filePath, sb.ToString());
+            File.WriteAllText(filePath, sb.ToString(), Encoding.UTF8);
         }
 
         public bool LoadConditions(string filePath)
@@ -104,7 +117,10 @@ namespace VisBinaryTreeInputSearch.StorageConditons
                 ConditionOfTree? conditionOfTree = null;
                 while (data != null) 
                 {
+                   
                     conditionOfTree = JsonSerializer.Deserialize<ConditionOfTree>(data);
+                    
+                    
                     if (conditionOfTree != null)
                     {
                         this.addCondition(conditionOfTree);

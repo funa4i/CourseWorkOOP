@@ -4,6 +4,7 @@ using VisBinaryTreeInputSearch.StorageConditons;
 using VisBinaryTreeInputSearch.Starter;
 using VisBinaryTreeInputSearch.Enums;
 using VisBinaryTreeInputSearch.StarterPack;
+using System.Diagnostics;
 
 namespace VisBinaryTreeInputSearch.Forms
 {
@@ -13,8 +14,7 @@ namespace VisBinaryTreeInputSearch.Forms
         ConditionOfTree conditionOfTree;
         private bool _isMousePressed;
 
-        private Manager _manager;
-        private Storage? _storage;
+        private Manager _manager = new Manager(new BinaryTree());
 
         private int lastMousPosX;
         private int lastMousPosY;
@@ -49,6 +49,7 @@ namespace VisBinaryTreeInputSearch.Forms
             _isMousePressed = true;
             lastMousPosX = e.X;
             lastMousPosY = e.Y;
+          
         }
 
         private void treePictBox_MouseUp(object sender, MouseEventArgs e)
@@ -74,7 +75,7 @@ namespace VisBinaryTreeInputSearch.Forms
             {
                 _zoomTrackBar.Value += ((e.Delta / Math.Abs(e.Delta) * 10));
             }
-
+           
         }
 
         private void MainForm_SizeChanged(object sender, EventArgs e)
@@ -99,35 +100,45 @@ namespace VisBinaryTreeInputSearch.Forms
         private void SetStorage(Igniter igniter)
         {
 
-            if (_storage == null || _storage.GetSize() == 0)
-            {
-                _manager = new Manager(new BinaryTree());
-            }
-            else
-            {
-                _manager = new Manager(_storage.SetLastPostion().Tree);
-            }
-            _storage = _manager.addIgniter(igniter);
-            conditionOfTree = _storage?.SetNullPosition() ?? conditionOfTree;
+            _manager.addIgniter(igniter);
+            conditionOfTree = _manager._storage?.GetCurrent();
+            ShowCondition(conditionOfTree);
+        }
+
+        private void ShowCondition(ConditionOfTree? condition)
+        {
+            if (condition == null) { return; }
+            
             Bitmap bitmap = new Bitmap(ConditionElementPictBox.Width, ConditionElementPictBox.Height);
             Graphics graphics = Graphics.FromImage(bitmap);
-            _curDrawingTree.DrawUseNode(graphics, igniter.data, ConditionElementPictBox.Width, ConditionElementPictBox.Height);
+            _curDrawingTree.DrawUseNode(graphics, condition.UseableData, ConditionElementPictBox.Width, ConditionElementPictBox.Height);
             ConditionElementPictBox.Image = bitmap;
-            switch (igniter.act)
+            switch (condition.EnumAct)
             {
                 case EnumAct.Insert:
                     labelCondition.Text = "Состояние: Вставка";
-                    labelResult.Text = "Результат: Успешно";
-                    break;
+                    if (condition.result == true)
+                    {
+                        labelResult.Text = "Результат: Успешно";
+                    }
+                    else 
+                    {
+                        labelResult.Text = "Результат: Вставляется";
+                    }
+                        break;
                 case EnumAct.Find:
                     labelCondition.Text = "Состоние: Поиск";
-                    if (_manager.result)
+                    if (condition.result == true)
                     {
                         labelResult.Text = "Результат: Найден";
                     }
-                    else
+                    else if (condition.result == false)
                     {
                         labelResult.Text = "Результат: Отсутствует";
+                    }
+                    else
+                    {
+                        labelResult.Text = "Результат: В поиске";
                     }
                     break;
             }
@@ -142,43 +153,47 @@ namespace VisBinaryTreeInputSearch.Forms
 
         private void buttonStepForward_Click(object sender, EventArgs e)
         {
-            if (_storage == null)
+            if (_manager?._storage?.GetSize() == 0)
             {
                 return;
             }
-            conditionOfTree = _storage.GetNextCondtiont();
+            conditionOfTree = _manager._storage.GetNextCondtion();
+            ShowCondition(conditionOfTree);
         }
 
         private void buttonStepBack_Click(object sender, EventArgs e)
         {
-            if (_storage == null)
+            if (_manager._storage.GetSize() == 0)
             {
                 return;
             }
-            conditionOfTree = _storage.GetPreviusCondition();
+            conditionOfTree = _manager._storage.GetPreviusCondition();
+            ShowCondition(conditionOfTree);
         }
 
         private void buttonLastCond_Click(object sender, EventArgs e)
         {
-            if (_storage == null)
+            if (_manager._storage.GetSize() == 0)
             {
                 return;
             }
-            conditionOfTree = _storage.SetLastPostion();
+            conditionOfTree = _manager._storage.SetLastPostion();
+            ShowCondition(conditionOfTree);
         }
 
         private void buttonStartCond_Click(object sender, EventArgs e)
         {
-            if (_storage == null)
+            if (_manager._storage == null)
             {
                 return;
             }
-            conditionOfTree = _storage.SetNullPosition();
+            conditionOfTree = _manager._storage.SetNullPosition();
+            ShowCondition(conditionOfTree);
         }
 
         private void ToolStripMenuItemSave_Click(object sender, EventArgs e)
         {
-            if (_storage == null)
+            if (_manager._storage == null)
             {
                 MessageBox.Show("Не удалось сохранить: Дерево отсутствует");
                 return;
@@ -186,24 +201,18 @@ namespace VisBinaryTreeInputSearch.Forms
 
             if (saveFileDialog.ShowDialog() == DialogResult.OK)
             {
-                _storage.SaveConditions(saveFileDialog.FileName);
+                _manager._storage.SaveConditions(saveFileDialog.FileName);
                 MessageBox.Show("Дерево сохранено");
             }
         }
 
         private void ToolStripMenuItemLoad_Click(object sender, EventArgs e)
         {
-            if (_storage == null)
-            {
-                _storage = new Storage();
-            }
-
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
-                if (_storage.LoadConditions(openFileDialog.FileName))
+                if (_manager._storage.LoadConditions(openFileDialog.FileName))
                 {
                     MessageBox.Show("Загрузка прошла успешно");
-                    SetStorage(new Igniter(_storage.SetNullPosition().EnumAct, _storage.SetNullPosition().UseableData));
                     buttonLastCond_Click(sender, e);
                 }
                 else

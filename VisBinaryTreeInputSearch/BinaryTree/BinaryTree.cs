@@ -14,9 +14,9 @@ namespace VisBinaryTreeInputSearch.BinaryTreeP
         /// </summary>
         public int size { get; set; }
         
-        private BinaryTree(MyTreeNode node, int size)
+        private BinaryTree(MyTreeNode head, int size)
         {
-            head = MyTreeNode.Clone(node);
+            head = MyTreeNode.Clone(head);
             this.size = size;
         }
         
@@ -168,9 +168,9 @@ namespace VisBinaryTreeInputSearch.BinaryTreeP
         /// <param name="enumAct"></param>
         /// <param name="data"></param>
         /// <returns></returns>
-        public ConditionOfTree CreateNewCondition(EnumAct enumAct, int data)
+        public ConditionOfTree CreateNewCondition(EnumAct enumAct, int data, bool? res)
         {
-            return new ConditionOfTree(enumAct, data, DeepClone(this));
+            return new ConditionOfTree(enumAct, data, DeepClone(this), res);
         }
 
         /// <summary>

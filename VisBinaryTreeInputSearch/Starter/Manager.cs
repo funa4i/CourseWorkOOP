@@ -8,21 +8,21 @@ namespace VisBinaryTreeInputSearch.Starter
     public class Manager
     {
         private BinaryTree Tree;
-        public bool result { get; private set;}
+
+        public Storage? _storage { get; private set; }
 
         public Manager(BinaryTree  tree) 
         {
             this.Tree = tree;
+            _storage = new Storage();
         }
         /// <summary>
         /// Принимает начальные параметры для создания Storage
         /// </summary>
         /// <param name="igniter"></param>
         /// <returns></returns>
-        public Storage addIgniter(Igniter igniter)
+        public void addIgniter(Igniter igniter)
         {
-            Storage toRet = new Storage();
-            toRet.addCondition(Tree.CreateNewCondition(igniter.act, igniter.data));
             bool? buf = null;
             switch (igniter.act)
             {
@@ -30,20 +30,17 @@ namespace VisBinaryTreeInputSearch.Starter
                     do
                     {
                         buf = Tree.DoFind(igniter.data);
-                        toRet.addCondition(Tree.CreateNewCondition(igniter.act, igniter.data));
+                        _storage?.addCondition(Tree.CreateNewCondition(igniter.act, igniter.data, buf));
                     } while (buf == null);
                     break;
                 case EnumAct.Insert:
                     do
                     {
                         buf = Tree.DoInsert(igniter.data);
-                        toRet.addCondition(Tree.CreateNewCondition(igniter.act, igniter.data));
+                        _storage?.addCondition(Tree.CreateNewCondition(igniter.act, igniter.data, buf));
                     } while (!buf ?? false);
                     break;
             }
-            result = buf ?? false;
-            toRet.SetNullPosition();
-            return toRet;
         }
     }
 }
