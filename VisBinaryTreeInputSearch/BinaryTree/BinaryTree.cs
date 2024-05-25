@@ -14,9 +14,9 @@ namespace VisBinaryTreeInputSearch.BinaryTreeP
         /// </summary>
         public int size { get; set; }
         
-        private BinaryTree(MyTreeNode head, int size)
+        public BinaryTree(MyTreeNode head, int size)
         {
-            head = MyTreeNode.Clone(head);
+            this.head = MyTreeNode.Clone(head);
             this.size = size;
         }
         

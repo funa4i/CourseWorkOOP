@@ -23,6 +23,7 @@ namespace VisBinaryTreeInputSearch.Starter
         /// <returns></returns>
         public void addIgniter(Igniter igniter)
         {
+            Tree.SetCondition(_storage.SetLastPostion());
             bool? buf = null;
             switch (igniter.act)
             {
